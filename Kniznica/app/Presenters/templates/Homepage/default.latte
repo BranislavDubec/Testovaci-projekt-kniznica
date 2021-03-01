@@ -1,4 +1,3 @@
-
 {block content}
 <style>
 .ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
@@ -78,9 +77,9 @@ $(function() {
 	<tr>
 		<th >{$book->nazov}</th>
 		<th >{$book->ISBN}</th>
-		<th >{$book->Cena}</th>
-		<th >{$book->Kategoria}</th>
-		<th >{$book->ref('autor', 'Autor')->meno}</th>
+		<th >{$book->cena}</th>
+		<th >{$book->kategoria}</th>
+		<th >{$book->ref('autor', 'autor')->meno}</th>
 	</tr>
 
 	{/foreach}
