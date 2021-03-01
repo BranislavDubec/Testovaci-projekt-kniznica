@@ -8,3 +8,5 @@ Vytvorenie tabuliek a vlozenie hodnot kategorii v db_init.sql.
 
 Spustite aplikacu z korenoveho suboru prikazom:
 php -S localhost:8000 -t www
+
+Json listovanie kniznice sa nachadza na url /homepage/jsonapi
