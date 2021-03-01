@@ -1,0 +1,90 @@
+
+{block content}
+<style>
+.ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
+#city { width: 25em; }
+</style>
+<script>
+$(function() {
+
+	var select_name = "meno";
+	$("input[name=" + select_name + "]").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: {$presenter->link('autocomplete')},
+				data: {
+					whichData: select_name,
+					typedText: request.term
+				},
+				success: function( data ) {
+					response( $.map( data, function( item ) {
+						return { label: item, value: item }
+					}));
+				}
+			});
+		},
+		minLength: 2,
+		open: function() {
+			$(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+		},
+		close: function() {
+			$(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+		}
+	});
+});
+</script>
+
+
+	<div  style="width:10%;margin-left:auto;margin-right:auto;">
+	<h1>Knižnica</h1>
+	</div>
+	<div class="container">
+	<form n:name=addBook class="row g-3 container">
+	<div class="col-md-12">
+		<p>{input nazov ,class=>"form-control"}</p>
+	</div>
+	<div class="col-md-6 pe-auto">
+		<p>{input meno ,class=>" form-control"}</p>
+	</div>
+	<div class="col-md-6">
+		<p>{input isbn ,class=>" form-control"}</p>
+	</div>
+	<div class="col-md-2">
+		<p>{input cena ,class=>" form-control "}</p>
+	</div>
+	<div class="col-md-4">
+		<p>{input kategoria class=>" form-control "}</p>
+	</div>
+		<button class=" btn btn-outline-secondary btn-lg mx-auto" type="submit" n:name="send">Pridať novú knihu</button>
+	</form>
+	</div>
+
+	<div  style="width:7%;margin-left:auto;margin-right:auto;">
+<h1>Knihy</h1>
+	</div>
+<div width:80%>
+<table class="table table-striped" style="width:80%;margin-left:auto;margin-right:auto;">
+<thead>
+	<tr>
+		<th scope="col">Názov</th>
+		<th scope="col">ISBN</th>
+		<th scope="col" ><a n:href="default sort => ($sort !== 'asc' ? 'asc' : 'desc')">Cena</a></th>
+		<th scope="col">Kategória</th>
+		<th scope="col">Autor</th>
+	</tr>
+</thead>
+<tbody>
+	{foreach $books as $book}
+	<tr>
+		<th >{$book->nazov}</th>
+		<th >{$book->ISBN}</th>
+		<th >{$book->Cena}</th>
+		<th >{$book->Kategoria}</th>
+		<th >{$book->ref('autor', 'Autor')->meno}</th>
+	</tr>
+
+	{/foreach}
+</tbody>
+</table>
+</div>
+{/block}
