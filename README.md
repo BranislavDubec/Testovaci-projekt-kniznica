@@ -1,5 +1,5 @@
 # Testovaci-projekt-kniznica
-### prerequisite
+### Spustenie
 MySql 5.7
 Php 7.2
 
