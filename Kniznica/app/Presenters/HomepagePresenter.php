@@ -7,11 +7,13 @@ namespace App\Presenters;
 use Nette;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Utils\Arrays;
+use Nette\Utils\Json;
 
 final class HomepagePresenter extends Nette\Application\UI\Presenter
 {
 
   private  $database;
+  private $json;
   public $sort = 'asc';
   public $data = array(
 		'meno' => array()
@@ -23,7 +25,10 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 		$this->database = $database;
 
     $rows = $database->fetchAll('SELECT meno FROM autor');
-
+    $this->json = $database->fetchAll('SELECT * FROM kniha');
+    foreach ($this->json as $row) {
+        $row['autor'] = $this->database->fetch('SELECT meno FROM autor WHERE id = ? ',$row->autor);
+    }
     $this->data['meno']=  Arrays::map($rows, function ($row) {
               return $row->meno;
           });
@@ -55,6 +60,10 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
     if($sort !== "asc" && $sort !== "desc" && $sort !== "id"){
       $this->error("Wrong path", 400);
     }
+	}
+  public function actionJsonapi()
+	{
+    $this->sendResponse(new JsonResponse($this->json));
 	}
   protected function createComponentAddBook(): Nette\Application\UI\Form
   {
